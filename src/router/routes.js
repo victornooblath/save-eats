@@ -4,7 +4,26 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     meta: { requiresAuth: true },
     children: [
-      { path: "", name: "home", component: () => import("pages/Index.vue") },
+      {
+        path: "home",
+        name: "home",
+        component: () => import("pages/Home/Home.vue"),
+      },
+      {
+        path: "search",
+        name: "search",
+        component: () => import("pages/SearchPage.vue"),
+      },
+      {
+        path: "profile",
+        name: "profile",
+        component: () => import("pages/Profile/UserScreen.vue"),
+      },
+      {
+        path: "notifications",
+        name: "notifications",
+        component: () => import("pages/Notification/NotificationScreen.vue"),
+      },
     ],
   },
   {
