@@ -24,6 +24,11 @@ const routes = [
         name: "notifications",
         component: () => import("pages/Notification/NotificationScreen.vue"),
       },
+      {
+        path: "post",
+        name: "postScreen",
+        component: () => import("pages/PostScreen.vue"),
+      },
     ],
   },
   {

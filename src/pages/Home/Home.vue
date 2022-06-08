@@ -1,11 +1,15 @@
 <template>
-  <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
-      style="width: 200px; height: 200px"
-    >
-    deu bom
+  <q-page class="q-px-lg q-py-lg">
+    <div class="row">
+      <div class="col-lg">
+        <p class="" style="margin-bottom: 0px">oi</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg">
+        <p class="q-my-xs" style="font-size:20px;">Tenha um otimo dia!</p>
+      </div>
+    </div>
   </q-page>
 </template>
 

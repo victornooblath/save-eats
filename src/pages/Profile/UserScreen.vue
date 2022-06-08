@@ -14,15 +14,20 @@
 
 <script>
 import { signOut } from "firebase/auth";
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {};
   },
   methods: {
+    ...mapMutations({
+      resetStateUser: "user/resetStateUser",
+    }),
     async logOut() {
       try {
         await signOut(this.$auth);
         this.$q.localStorage.set("userId", false);
+        this.resetStateUser();
         console.log("Deslogado");
         this.$router.push({ name: "login" });
       } catch (err) {

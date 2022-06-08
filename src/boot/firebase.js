@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_KEY,
@@ -16,9 +17,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 export default async ({ Vue }) => {
   console.log(process.env.FIREBASE_KEY);
   Vue.prototype.$firebase = app;
   Vue.prototype.$db = db;
   Vue.prototype.$auth = auth;
+  Vue.prototype.$storage = storage;
 };

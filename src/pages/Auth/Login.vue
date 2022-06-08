@@ -77,7 +77,7 @@ export default {
         );
         this.$q.notify({
           color: "secondary",
-          message: "Bem vindo de volta!",
+          message: `Bem vindo(a) de volta ${this.user.email} !`,
           icon: "thumb_up",
           position: "top",
         });
