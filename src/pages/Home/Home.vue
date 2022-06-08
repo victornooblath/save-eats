@@ -56,11 +56,12 @@ export default {
   methods: {
     async refresh(done) {
       const res = await this.getData();
-      console.log(res)
+      console.log(res);
       if (res) done();
     },
     async getData() {
       const querySnapshot = await getDocs(collection(this.$db, "products"));
+      this.posts = [];
       querySnapshot.forEach((doc) => {
         this.posts.push({ ...doc.data(), id: doc.id });
       });
