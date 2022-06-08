@@ -126,7 +126,7 @@
 
 <script>
 import { collection, addDoc } from "firebase/firestore";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 export default {
   data() {
     return {
@@ -152,21 +152,34 @@ export default {
   },
   methods: {
     async onSubmit() {
-      const res = [];
-      this.prod.files.forEach(async (file) => {
+      const images = [];
+      this.loading = true;
+      this.prod.files.forEach(async (file, index) => {
         const storageRef = ref(this.$storage, `posts/${file.name}`);
-        const resStorage = await uploadBytes(storageRef, file);
-        res.push(resStorage);
+        await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(storageRef);
+        images.push(url);
+        if (index === this.prod.files.length - 1) setPost();
       });
-      console.log(res);
-      // const cloneProd = { ...this.prod };
-      // delete cloneProd.files;
-      // const docRef = await addDoc(collection(this.$db, "products"), cloneProd);
-      // if (!!docRef.id)
-      //   this.$q.notify({ message: "Post criado com sucesso", type: "success" });
-      // else this.$q.notify({ message: "Erro ao criar post", type: "error" });
 
-      // console.log(this.prod.files[0].name);
+      const setPost = async () => {
+        console.log(images);
+        const cloneProd = { ...this.prod, images };
+        delete cloneProd.files;
+        const docRef = await addDoc(
+          collection(this.$db, "products"),
+          cloneProd
+        );
+        console.log(docRef);
+        if (!!docRef.id) {
+          this.$q.notify({
+            message: "Post criado com sucesso",
+            type: "positive",
+          });
+        } else
+          this.$q.notify({ message: "Erro ao criar post", type: "negative" });
+        this.loading = false;
+      };
     },
   },
 };

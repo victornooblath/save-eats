@@ -29,6 +29,11 @@ const routes = [
         name: "postScreen",
         component: () => import("pages/PostScreen.vue"),
       },
+      {
+        path: "postdetails",
+        name: "postDetails",
+        component: () => import("pages/PostDetails.vue"),
+      },
     ],
   },
   {
