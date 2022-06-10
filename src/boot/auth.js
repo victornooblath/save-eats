@@ -7,6 +7,7 @@ export default ({ router, store }) => {
     const localStorageUserId = LocalStorage.getItem("userId");
     const isAuth = !!store.state.user.id || !!localStorageUserId;
     const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+    if (!!localStorageUserId) store.state.user.id = localStorageUserId;
     // console.log(isAuth);
     // console.log(store.state);
     if (requiresAuth) {

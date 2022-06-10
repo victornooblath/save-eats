@@ -26,7 +26,7 @@ export default {
     async logOut() {
       try {
         await signOut(this.$auth);
-        this.$q.localStorage.set("userId", false);
+        this.$q.localStorage.set("userId", null);
         this.resetStateUser();
         console.log("Deslogado");
         this.$router.push({ name: "login" });

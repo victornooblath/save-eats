@@ -125,8 +125,9 @@
 </template>
 
 <script>
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -138,6 +139,7 @@ export default {
         location: "",
         files: null,
         category: null,
+        time: null,
       },
       dialog: false,
       loading: false,
@@ -149,6 +151,11 @@ export default {
         "Outros",
       ],
     };
+  },
+  computed: {
+    ...mapState({
+      userId: (state) => state.user.id,
+    }),
   },
   methods: {
     async onSubmit() {
@@ -163,8 +170,9 @@ export default {
       });
 
       const setPost = async () => {
+        this.prod.time = serverTimestamp();
         console.log(images);
-        const cloneProd = { ...this.prod, images };
+        const cloneProd = { ...this.prod, images, userId: this.userId };
         delete cloneProd.files;
         const docRef = await addDoc(
           collection(this.$db, "products"),
@@ -175,10 +183,16 @@ export default {
           this.$q.notify({
             message: "Post criado com sucesso",
             type: "positive",
+            position: "top",
           });
         } else
-          this.$q.notify({ message: "Erro ao criar post", type: "negative" });
+          this.$q.notify({
+            message: "Erro ao criar post",
+            type: "negative",
+            position: "top",
+          });
         this.loading = false;
+        this.$router.back();
       };
     },
   },

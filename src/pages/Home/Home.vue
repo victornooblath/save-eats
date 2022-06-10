@@ -15,13 +15,34 @@
       </div>
       <div class="row">
         <div class="col">
-          <h5 class="col-lg q-mb-xs q-mt-sm" style="color: orange">
+          <h5
+            class="col-lg q-mb-xs q-mt-sm"
+            style="color: orange; text-align: center"
+          >
             Categorias
           </h5>
+          <div class="row category-container no-wrap">
+            <div
+              class="category"
+              v-for="item in [0, 1, 2, 3, 4, 5, 6]"
+              :key="item"
+            >
+              <q-img
+                src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMDQwODl8MHwxfHNlYXJjaHwxMHx8Y29kZXxlbnwwfHx8fDE2NTQ3MzQ0ODQ&ixlib=rb-1.2.1&q=80&w=400"
+                width="100%" height="100%"
+              />
+            </div>
+          </div>
         </div>
       </div>
+      <h5
+        class="col-lg q-mb-xs q-mt-sm"
+        style="color: orange; text-align: center"
+      >
+        Feed
+      </h5>
       <div class="row q-col-gutter-sm">
-        <div class="col-12" v-for="(post, i) in posts" :key="i">
+        <div class="col-12 q-mb-md" v-for="(post, i) in posts" :key="i">
           <q-card
             @click="
               $router.push({
@@ -29,9 +50,22 @@
                 query: { id: post.id },
               })
             "
+            flat
+            bordered
           >
-            <q-card-section>
-              <q-img :src="post.images[0]" :alt="post.name" />
+            <q-card-section horizontal>
+              <q-card-section>
+                <div class="text-h6">{{ post.name }}</div>
+                <div class="text-subtitle2">
+                  {{ post.location }} - {{ post.category }}
+                </div>
+                <div class="text-subtitle2">
+                  {{ getDate(post.time.toDate()) }}
+                </div>
+              </q-card-section>
+              <q-card-section>
+                <q-img class="col-5" :src="post.images[0]" :alt="post.name" />
+              </q-card-section>
             </q-card-section>
           </q-card>
         </div>
@@ -41,7 +75,8 @@
 </template>
 
 <script>
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { useDate } from "../../utils";
 export default {
   name: "Home",
   data() {
@@ -60,13 +95,38 @@ export default {
       if (res) done();
     },
     async getData() {
-      const querySnapshot = await getDocs(collection(this.$db, "products"));
+      const orderRef = collection(this.$db, "products");
+      const q = query(orderRef, orderBy("time", "desc"));
+      const querySnapshot = await getDocs(q);
+      console.log(q);
       this.posts = [];
       querySnapshot.forEach((doc) => {
         this.posts.push({ ...doc.data(), id: doc.id });
+        // const currentTime = new Date(posts.time).toLocaleString();
+        // console.log(currentTime);
       });
+      console.log(this.posts);
       return true;
+    },
+    getDate(dateObj) {
+      // const {date,month,year} = useDate.getDate(dateObj)
+      // return `${date}/${month}/${year}`
+      return dateObj.toLocaleDateString("pt-BR");
     },
   },
 };
 </script>
+<style scoped>
+.category {
+  width: 180px;
+  height: 100px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-right: 5px;
+}
+.category-container {
+  width: 100%;
+  overflow: auto;
+  height: 100px;
+}
+</style>

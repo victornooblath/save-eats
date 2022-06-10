@@ -9,5 +9,5 @@ export function setUser(state, { uid, email }) {
 
 export function resetStateUser(state){
   state.id = null;
-  state.email=null;
+  state.email = null;
 }
