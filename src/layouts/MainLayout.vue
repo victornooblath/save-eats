@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import PostScreen from "../pages/PostScreen.vue";
 export default {
   data() {
@@ -49,8 +51,45 @@ export default {
       dialog: false,
     };
   },
+  watch:{
+    userId(){
+      this.getUser()
+    }
+  },
+  async mounted() {
+    console.log("mounted")
+    this.getUser()
+  },
   components: {
     PostScreen,
+  },
+  computed: {
+    ...mapState({
+      userId: (state) => state.user.id,
+    }),
+  },
+  methods: {
+    ...mapMutations({
+      setUser: "user/setUser",
+    }),
+    async getUser() {
+      console.log(this.userId)
+      if (!this.userId) {
+        const q = query(
+          collection(this.$db, "users"),
+          where("id", "==", this.userId)
+        );
+        const querySnapshot = await getDocs(q);
+        const user = { email: null, uid: null };
+        querySnapshot.forEach((doc) => {
+          console.log(doc);
+          user.email = doc.data().email;
+          user.uid = doc.data().id;
+          console.log(doc.data());
+        });
+        this.setUser(user);
+      }
+    },
   },
 };
 </script>

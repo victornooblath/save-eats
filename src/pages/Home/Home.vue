@@ -22,22 +22,15 @@
             Categorias
           </h5>
           <div class="row category-container no-wrap">
-            <div
-              class="category"
-              v-for="item in [0, 1, 2, 3, 4, 5, 6]"
-              :key="item"
-            >
-              <q-img
-                src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMDQwODl8MHwxfHNlYXJjaHwxMHx8Y29kZXxlbnwwfHx8fDE2NTQ3MzQ0ODQ&ixlib=rb-1.2.1&q=80&w=400"
-                width="100%" height="100%"
-              />
+            <div v-for="(item, i) in items" :key="i" class="category">
+              <q-img :src="item.img" width="100%" height="100%" />
             </div>
           </div>
         </div>
       </div>
       <h5
         class="col-lg q-mb-xs q-mt-sm"
-        style="color: orange; text-align: center"
+        style="color: #ff5722; text-align: left; margin-top: 50px"
       >
         Feed
       </h5>
@@ -52,19 +45,22 @@
             "
             flat
             bordered
+            class="my-card"
           >
             <q-card-section horizontal>
+              <q-img class="col-5" :src="post.images[0]" :alt="post.name" />
+
               <q-card-section>
                 <div class="text-h6">{{ post.name }}</div>
                 <div class="text-subtitle2">
-                  {{ post.location }} - {{ post.category }}
+                  {{ post.location }}
                 </div>
                 <div class="text-subtitle2">
                   {{ getDate(post.time.toDate()) }}
                 </div>
-              </q-card-section>
-              <q-card-section>
-                <q-img class="col-5" :src="post.images[0]" :alt="post.name" />
+                <div class="text-subtitle2" style="color: #ff5722">
+                  R$ {{ post.newPrice }}
+                </div>
               </q-card-section>
             </q-card-section>
           </q-card>
@@ -83,6 +79,20 @@ export default {
     return {
       posts: [],
       slide: 1,
+      items: [
+        {
+          img: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+        },
+        {
+          img: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+        },
+        {
+          img: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+        },
+        {
+          img: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+        },
+      ],
     };
   },
   created() {
@@ -119,7 +129,7 @@ export default {
 <style scoped>
 .category {
   width: 180px;
-  height: 100px;
+  height: 100%;
   flex-grow: 0;
   flex-shrink: 0;
   margin-right: 5px;
@@ -128,5 +138,10 @@ export default {
   width: 100%;
   overflow: auto;
   height: 100px;
+}
+
+.my-card {
+  width: 100%;
+  max-width: 350px;
 }
 </style>
