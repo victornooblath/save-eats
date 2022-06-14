@@ -5,7 +5,7 @@
     </div>
     <div class="row">
       <div class="col">
-        <q-carousel animated v-model="slide" arrows navigation infinite>
+        <q-carousel animated v-model="slide" height="300px" arrows navigation infinite>
           <q-carousel-slide
             v-for="(src, i) in postInfo.images"
             :key="i"
@@ -17,8 +17,9 @@
     </div>
     <div class="row q-mt-sm">
       <div class="col-8">
-        <h5 class="q-mt-xs q-mb-xs">Postado por: {{this.user.email}}</h5>
+         <p class="q-mt-xs q-mb-xs"><q-icon size="md" name="account_box" color="deep-orange" />Postado por: {{this.user.email}}</p>
         <div class="text-subtitle2">
+          <q-icon size="md" name="pin_drop" color="deep-orange"/>
           {{ postInfo.location }}
         </div>
       </div>
@@ -27,9 +28,17 @@
         <q-btn class="glossy" round color="red" icon="thumb_down" />
       </div>
     </div>
+    <div class="row">
+      <div class="col q-mt-sm" style="font-size: 20px">
+        De: <span style="text-decoration: line-through;">R${{postInfo.oldPrice}}</span>
+      </div>
+      <div class="col q-mt-sm" style="font-size: 20px">
+        Por: R${{postInfo.newPrice}}
+      </div>
+    </div>
     <div class="row q-mt-md">
-      <div class="col">
-        <p><b>{{postInfo.description}}</b></p>
+      <div class="col " style="font-size: 20px">
+        <p>Descrição: {{postInfo.description}}</p>
       </div>
     </div>
   </q-page>

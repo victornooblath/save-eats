@@ -1,11 +1,11 @@
 <template>
   <q-page class="q-px-lg q-py-lg">
     <q-pull-to-refresh @refresh="refresh">
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-lg">
           <p class="" style="margin-bottom: 0px">{USER_LOCATION}</p>
         </div>
-      </div>
+      </div> -->
       <div class="row">
         <div class="col-lg">
           <p class="q-my-xs" style="font-size: 15px; margin-bottom: 10px">
@@ -17,9 +17,9 @@
         <div class="col">
           <h5
             class="col-lg q-mb-xs q-mt-sm"
-            style="color: orange; text-align: center"
+            style="color: #ff5722; text-align: center"
           >
-            Categorias
+            <q-icon size="md" name="explore"/>Categorias
           </h5>
           <div class="row category-container no-wrap">
             <div v-for="(item, i) in items" :key="i" class="category">
@@ -32,7 +32,7 @@
         class="col-lg q-mb-xs q-mt-sm"
         style="color: #ff5722; text-align: left; margin-top: 50px"
       >
-        Feed
+        <q-icon size="md" name="sell"/>Feed
       </h5>
       <div class="row q-col-gutter-sm">
         <div class="col-12 q-mb-md" v-for="(post, i) in posts" :key="i">
@@ -59,7 +59,7 @@
                   {{ getDate(post.time.toDate()) }}
                 </div>
                 <div class="text-subtitle2" style="color: #ff5722">
-                  R$ {{ post.newPrice }}
+                  <q-icon size="xs" name="local_fire_department"/>R$ {{ post.newPrice }}
                 </div>
               </q-card-section>
             </q-card-section>
@@ -82,13 +82,13 @@ export default {
       slide: 1,
       items: [
         {
-          img: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+          img: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
         },
+          {
+            img: "https://images.unsplash.com/photo-1563453392212-326f5e854473?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+          },
         {
-          img: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-        },
-        {
-          img: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+          img: "https://images.unsplash.com/photo-1577467014911-2c66a5c1995a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
         {
           img: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
