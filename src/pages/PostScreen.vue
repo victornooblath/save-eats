@@ -33,6 +33,7 @@
         <div class="row">
           <div class="col q-mr-md">
             <q-input
+            step="any"
               type="number"
               v-model="prod.oldPrice"
               label="De"
@@ -47,6 +48,7 @@
               label="Por"
               color="deep-orange"
               :rules="[(val) => !!val || '* Este campo é obrigatório']"
+              step="any"
             />
           </div>
         </div>
