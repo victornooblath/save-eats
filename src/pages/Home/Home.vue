@@ -9,7 +9,7 @@
       <div class="row">
         <div class="col-lg">
           <p class="q-my-xs" style="font-size: 15px; margin-bottom: 10px">
-            Tenha um otimo dia!{USER}
+            Tenha um otimo dia! {{userEmail}}
           </p>
         </div>
       </div>
@@ -73,6 +73,7 @@
 <script>
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { useDate } from "../../utils";
+import {mapState} from "vuex"
 export default {
   name: "Home",
   data() {
@@ -98,24 +99,26 @@ export default {
   created() {
     this.getData();
   },
+  computed: {
+    ...mapState({
+      userEmail: (state) => state.user.email,
+    }),
+  },
   methods: {
     async refresh(done) {
       const res = await this.getData();
-      console.log(res);
       if (res) done();
     },
     async getData() {
       const orderRef = collection(this.$db, "products");
       const q = query(orderRef, orderBy("time", "desc"));
       const querySnapshot = await getDocs(q);
-      console.log(q);
       this.posts = [];
       querySnapshot.forEach((doc) => {
         this.posts.push({ ...doc.data(), id: doc.id });
         // const currentTime = new Date(posts.time).toLocaleString();
         // console.log(currentTime);
       });
-      console.log(this.posts);
       return true;
     },
     getDate(dateObj) {

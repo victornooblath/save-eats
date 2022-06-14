@@ -9,7 +9,7 @@
           <q-carousel-slide
             v-for="(src, i) in postInfo.images"
             :key="i"
-            :name="i"
+            :name="i+1"
             :img-src="src"
           />
         </q-carousel>
@@ -17,7 +17,7 @@
     </div>
     <div class="row q-mt-sm">
       <div class="col-8">
-        <h5 class="q-mt-xs q-mb-xs">Postado por: {{userEmail}}</h5>
+        <h5 class="q-mt-xs q-mb-xs">Postado por: {{this.user.email}}</h5>
         <div class="text-subtitle2">
           {{ postInfo.location }}
         </div>
@@ -29,20 +29,23 @@
     </div>
     <div class="row q-mt-md">
       <div class="col">
-        <p><b>comentarios:</b></p>
+        <p><b>{{postInfo.description}}</b></p>
       </div>
     </div>
   </q-page>
 </template>
 
 <script>
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { mapState } from "vuex";
 export default {
   data() {
     return {
       postInfo: {},
       slide: 1,
+      user: {
+        email: ""
+      },
     };
   },
 
@@ -51,8 +54,25 @@ export default {
     const docRef = doc(this.$db, "products", docId);
     const docSnap = await getDoc(docRef);
     this.postInfo = docSnap.data();
-    console.log(this.postInfo);
+    this.getUser()
   },
+  methods: {
+    async getUser() {
+      const q = query(
+        collection(this.$db, "users"),
+        where("id", "==", this.postInfo.userId)
+      );
+      console.log(q);
+      const querySnapshot = await getDocs(q);
+      const user = { email: null, uid: null };
+      querySnapshot.forEach((doc) => {
+        user.email = doc.data().email;
+        user.uid = doc.data().id;
+        this.user.email = user.email
+      });
+    },
+  },
+  
   computed: {
     ...mapState({
       userEmail: (state) => state.user.email,
